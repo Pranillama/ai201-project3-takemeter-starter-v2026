@@ -39,10 +39,17 @@
 
 ## What This Does
 
-<!-- Your community, and what your classifier sorts posts into. Three or four
-     sentences. -->
+TakeMeter classifies posts from [r/AI_Agents](https://www.reddit.com/r/AI_Agents/), a public Reddit community about building and using AI agents. Anyone can read it. There is enough text there to collect 200 posts.
 
+I read the current hot feed: 15 text posts, skipping ads and the weekly megathreads. The labels themselves are the next step. These three distinctions showed up in the posts, and they are pointable in the text.
 
+1. **The post asks for an answer.** The body is a question or a request for a tool. "How realistic is it to build a small custom CRM/ERP with AI?" asks how long a custom build takes, what maintenance looks like, and whether an existing product is better. "Best AI Agent for distinguishing between voices?" asks for a tool for an upcoming meeting.
+
+2. **The post makes a claim and gives a checkable detail.** A count, a price, or a named event is in the post. "Lessons from trying to buy from ~1,900 x402 APIs in one day (1,255 delivered)" reports about 1,900 attempts, 1,255 delivered, and $12.19 spent, then lists what failed (151 extra 402 responses, listed prices up to 5x higher live). "Accenture just capped Claude spend at $29/person after some staff hit $1,000 months" hangs the claim on those dollar figures.
+
+3. **The post is a build status.** It lists what the author has shipped or is building, and that list is the point of the post. "Milo Road Map" goes through what is done (brain, voice, and memory) and what is next.
+
+Some posts do two of these at once. "What's actually worth automating in customer support with AI agents?" states a rule (automate low-risk requests, escalate irreversible ones) and then asks what people run in production. That boundary is the one to pin down when the labels are written.
 
 ---
 
