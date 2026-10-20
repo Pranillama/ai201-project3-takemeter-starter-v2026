@@ -51,61 +51,43 @@ whether you hit them:
 
 ---
 
-## 1.
+## 1. Overall accuracy
 
-<!-- Your criterion. It must name a number. -->
+On the held-out set, accuracy is at least 0.60 on every one of the three seeds.
 
-
-
-**Why this target:**
-
-
+**Why this target:** Three labels means a guesser gets about 0.33. 0.60 is the point where I would actually let this sort a feed. It has to hold on every seed, so one lucky run does not count.
 
 ---
 
-## 2.
+## 2. Per-label performance
 
-<!-- Your criterion. -->
+On the held-out set, every label has an F1 of at least 0.50 on every one of the three seeds.
 
-
-
-**Why this target:**
-
-
+**Why this target:** `build_log` was the rarest of the three in the posts I read, so its test split will be small and its F1 will jump. 0.50 is looser than the overall 0.60 on purpose, and it is still above a 0.33 guess. A model that only learns `question` fails this.
 
 ---
 
-## 3.
+## 3. Balance
 
-<!-- Your criterion. -->
+In `labels.csv`, no label is more than 50% of the rows.
 
-
-
-**Why this target:**
-
-
+**Why this target:** The hot feed was mostly people asking for help. The course already rejects a file where one label is over 70%. 50% is tighter than that, because `supported_claim` and `build_log` have to be real parts of the set, not leftovers.
 
 ---
 
-## 4.
+## 4. Consistency
 
-<!-- Your criterion. -->
+When I label the 30 staff posts under the staff definitions in `data/staff_taxonomy.md`, I match the staff label on at least 21 of the 30 (70%).
 
-
-
-**Why this target:**
-
-
+**Why this target:** This is someone else's taxonomy, which is the check on whether a written rule can be applied twice. 21 of 30 is "usually the same label." I did not pick 27 of 30, because their analysis / hot_take boundary is the same kind of hard call as `question` / `supported_claim`.
 
 ---
 
-## 5.
+## 5. Confidence
 
-<!-- Your criterion. -->
+On the held-out set, for every seed, accuracy on the most-confident third of predictions is at least 0.10 higher than accuracy on the least-confident third.
 
-
-
-**Why this target:**
+**Why this target:** If a confident guess is not right more often than an unsure one, the score is not usable for skipping past posts. A third of a ~30-post test split is about 10 posts, so 0.10 is a gap I can actually see, and I am not asking the model to be sure of everything.
 
 
 
