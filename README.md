@@ -150,15 +150,15 @@ Those distinctions are now the labels `question`, `supported_claim`, and `build_
 
 <!-- Your starting model, your settings, and anything you changed and why. -->
 
-**Base model:**
+**Base model:** `distilbert-base-uncased`
 
-**Settings:** <!-- epochs, learning rate, batch size, seed -->
+**Settings:** 3 epochs, learning rate 2e-5, batch size 16, 128 tokens per post, seed 42. Defaults, unchanged.
 
-**Anything I changed from the defaults, and why:**
+**Anything I changed from the defaults, and why:** Nothing. The label list is `question`, `supported_claim`, `build_log`.
 
-**Split sizes:** <!-- train / val / test, and per-label counts in the test
-split. If a label had fewer than about 8 in test, say so — it explains a lot
-of next unit's variance. -->
+**Device:** `mps` (Apple Silicon GPU). Torch 2.14.1. `results.json` records the same device.
+
+**Split sizes:** train 139, validation 31, test 30. Test counts: `question` 10, `supported_claim` 10, `build_log` 10. None is under 8.
 
 
 
