@@ -108,45 +108,41 @@ Those distinctions are now the labels `question`, `supported_claim`, and `build_
 <!-- Where you collected from, how you labelled, your counts, and three hard
      cases. -->
 
-**Where the posts came from:**
+**Where the posts came from:** Public text posts on r/AI_Agents (https://www.reddit.com/r/AI_Agents/). Each row is the title plus the full body. Posts were not trimmed, and the file is not split.
 
-**How I labelled them:** <!-- Cold first? Pre-labelled with AI and corrected?
-Say so plainly — the disclosure is required, not penalised. -->
+**How I labelled them:** Pre-labelled from the definitions and the decision rule in Label Taxonomy, then checked. Every note says `pre-labelled`. None are marked `cold`. The 20 cold labels were supposed to be done with no tools, and these were not, so they are not marked that way.
 
 **Counts per label:**
 
 | Label | Count | Share |
 |---|---|---|
-|  |  |  |
-|  |  |  |
-|  |  |  |
-| **Total** |  | 100% |
+| question | 70 | 35% |
+| supported_claim | 64 | 32% |
+| build_log | 66 | 33% |
+| **Total** | **200** | 100% |
 
 **Three hard cases**
 
-<!-- Any post that made you pause: what it was, which two labels it could have
-     been, and what you chose. These are worth more than the easy 190. -->
-
 **1.**
-> *The post:*
+> *The post:* "I audited 73 public agent trajectories for wasted tokens — 74% had measurable waste." The body also says the author built the chewme-audit CLI that did the audit.
 >
-> *Could have been:*
+> *Could have been:* `supported_claim` or `build_log`
 >
-> *I chose, because:*
+> *I chose `supported_claim`, because:* the title's point is the measured result (73 trajectories, 74%). The tool is how they measured it.
 
 **2.**
-> *The post:*
+> *The post:* "I built MCP tools for AI agents, and the agents got good enough that they don't need them." It has been live about 4 months and nobody is using it.
 >
-> *Could have been:*
+> *Could have been:* `build_log` or `supported_claim`
 >
-> *I chose, because:*
+> *I chose `build_log`, because:* the post is the status of their own API. The 4 months is part of that status, not a separate measurement study.
 
 **3.**
-> *The post:*
+> *The post:* "What's actually worth automating in customer support with AI agents?" It states a rule (automate low-risk requests, escalate irreversible ones) and asks what people run in production. The order and refund examples are hypothetical.
 >
-> *Could have been:*
+> *Could have been:* `question` or `supported_claim`
 >
-> *I chose, because:*
+> *I chose `question`, because:* the details are examples inside a request for advice, not a result the author measured.
 
 ---
 
