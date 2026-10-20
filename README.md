@@ -175,17 +175,17 @@ Those distinctions are now the labels `question`, `supported_claim`, and `build_
 
 **Moment 1**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* Turn the three distinctions from the r/AI_Agents hot feed into labels, and stress-test them with posts that sit on the boundaries.
+- *What came back:* `question`, `supported_claim`, and `build_log`, plus the decision rule. A measured result is `supported_claim` even if the last line asks a question. A detail that is only an example inside a request is `question`. A status of the author's own system is `build_log`.
+- *What I changed:* One stress-test post ("Agents are dead. Nobody serious uses them.") fit none of the three. I did not add a fourth label. Posts like that stay out of the dataset.
 
 **Moment 2**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* Collect 200 public r/AI_Agents posts and label them with that rule.
+- *What came back:* A first pass of 70 `question`, 65 `supported_claim`, and 65 `build_log`.
+- *What I changed:* After a spot check, "I'm building a memory agent for AI agents. Here's what I learned about why small models fail at memory" moved from `supported_claim` to `build_log`. The post describes the author's system. It does not report a measured result. Final counts are 70, 64, and 66.
 
-**Pre-labelling disclosure:**
+**Pre-labelling disclosure:** All 200 rows were pre-labelled from the written rules and then spot-checked. They were not labelled cold. Every note says `pre-labelled`. No row is marked `cold`.
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
