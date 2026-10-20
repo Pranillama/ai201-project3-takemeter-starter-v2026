@@ -41,7 +41,7 @@
 
 TakeMeter classifies posts from [r/AI_Agents](https://www.reddit.com/r/AI_Agents/), a public Reddit community about building and using AI agents. Anyone can read it. There is enough text there to collect 200 posts.
 
-I read the current hot feed: 15 text posts, skipping ads and the weekly megathreads. The labels themselves are the next step. These three distinctions showed up in the posts, and they are pointable in the text.
+I read the current hot feed: 15 text posts, skipping ads and the weekly megathreads. These three distinctions showed up in the posts, and they are pointable in the text.
 
 1. **The post asks for an answer.** The body is a question or a request for a tool. "How realistic is it to build a small custom CRM/ERP with AI?" asks how long a custom build takes, what maintenance looks like, and whether an existing product is better. "Best AI Agent for distinguishing between voices?" asks for a tool for an upcoming meeting.
 
@@ -49,7 +49,7 @@ I read the current hot feed: 15 text posts, skipping ads and the weekly megathre
 
 3. **The post is a build status.** It lists what the author has shipped or is building, and that list is the point of the post. "Milo Road Map" goes through what is done (brain, voice, and memory) and what is next.
 
-Some posts do two of these at once. "What's actually worth automating in customer support with AI agents?" states a rule (automate low-risk requests, escalate irreversible ones) and then asks what people run in production. That boundary is the one to pin down when the labels are written.
+Those distinctions are now the labels `question`, `supported_claim`, and `build_log`. Posts that are only a bare opinion, with no question, no checkable detail, and no build status, stay out of the dataset.
 
 ---
 
@@ -61,33 +61,43 @@ Some posts do two of these at once. "What's actually worth automating in custome
      The decision rule is worth a point on its own and it's the thing most
      people leave out. Every taxonomy has a hardest boundary. Name yours. -->
 
-### `label_one`
+### `question`
 
-**Definition:**
-
-**Example 1:**
->
-
-**Example 2:**
->
-
-### `label_two`
-
-**Definition:**
+**Definition:** The post's main purpose is to get an answer, a recommendation, or a tool from other people.
 
 **Example 1:**
->
+> "How realistic is it to build a small custom CRM/ERP with AI?" asks how long a custom build takes, what maintenance looks like, and whether an existing product is better.
 
 **Example 2:**
->
+> "Best AI Agent for distinguishing between voices?" asks for a tool for an upcoming meeting.
+
+### `supported_claim`
+
+**Definition:** The post's main purpose is to report a result, and that result includes a count, a price, or a named event.
+
+**Example 1:**
+> "Lessons from trying to buy from ~1,900 x402 APIs in one day (1,255 delivered)" reports about 1,900 attempts, 1,255 delivered, and $12.19 spent.
+
+**Example 2:**
+> "Accenture just capped Claude spend at $29/person after some staff hit $1,000 months." The post is about that cap and those amounts.
+
+### `build_log`
+
+**Definition:** The post's main purpose is to say what the author's own system does now, or what stage that system is in.
+
+**Example 1:**
+> "Milo Road Map" lists what is done (brain, voice, and memory) and what is being built next.
+
+**Example 2:**
+> "A Cloud Desktop Computer for your AI Agent" describes Cubicles, a cloud desktop the author built so an agent is not running on their laptop.
 
 ### The hardest boundary
 
-**Which two labels:**
+**Which two labels:** `question` and `supported_claim`
 
-**The decision rule I used every time:**
-<!-- e.g. "If the post names a specific checkable fact, it's `analysis`, even
-     if the tone is heated." -->
+**The post that sits on it:** "What's actually worth automating in customer support with AI agents?" It states a rule (automate low-risk requests, escalate irreversible ones) and then asks what people run in production. The details in it are hypothetical examples, not a result the author measured.
+
+**The decision rule I used every time:** If the count, price, or named event is a result the author is reporting as the point of the post, it is `supported_claim`, even when the last line asks a question. If that detail is only an example inside a request for advice, it is `question`. If the body is a status of the author's own system, it is `build_log` even when that status includes a number or a trailing question.
 
 
 
