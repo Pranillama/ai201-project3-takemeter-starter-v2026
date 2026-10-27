@@ -221,32 +221,34 @@ Fine-tuning did not make the classifier more accurate overall. On the same 30 po
 
 ## Run Log — Before
 
-<!-- Five criteria across three seeds. The notebook's section 6 prints the
-     spread table; the Target and Verdict columns are yours. -->
+Device for all three seeds: `mps`, Apple Silicon GPU, torch 2.14.1, `MAX_LENGTH` 128. Accuracy moved 0.067 across seeds.
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| 1. Overall accuracy | ≥ 0.60 | 0.533 | 0.500 | 0.567 | MISSED |
+| 2. Every label F1 | ≥ 0.50 | 0.000 (`supported_claim`) | 0.375 (`question`) | 0.526 (`build_log`) | MISSED |
+| 3. No label over 50% of `labels.csv` | ≤ 50% | 35% | 35% | 35% | MET |
+| 4. Match staff labels | ≥ 21/30 | — | — | — | waiting on `staff_labels.csv` |
+| 5. Confident third beats unsure third | ≥ 0.10 | 0.600 | 0.100 | 0.500 | MET |
+
+Criterion 2's seed columns are the worst label that seed, which is the number the target has to clear. The other labels on those seeds: seed 42 `question` 0.720 and `build_log` 0.583; seed 7 `supported_claim` 0.526 and `build_log` 0.560; seed 2024 `question` 0.632 and `supported_claim` 0.545. Criterion 3 is a property of the file (70 / 64 / 66 of 200), so it does not change with the seed. Criterion 5 on seed 7 is 0.600 versus 0.500, which meets "at least 0.10" on the line.
 
 ### Confusion matrix
 
 <!-- ⚠️ TYPED AS A MARKDOWN TABLE. The notebook prints one ready to paste.
      An image of a matrix earns nothing. -->
 
-| true \ predicted |  |  |  |
+Seed 42, the first of the three. Rows are the true label.
+
+| true \ predicted | question | supported_claim | build_log |
 |---|---|---|---|
-| **** |  |  |  |
-| **** |  |  |  |
-| **** |  |  |  |
+| **question** | 9 | 0 | 1 |
+| **supported_claim** | 4 | 0 | 6 |
+| **build_log** | 2 | 1 | 7 |
 
 **My biggest off-diagonal number, and what it means:**
-<!-- Not "the model made mistakes" — WHICH boundary it didn't learn, and which
-     direction. "7 real analysis posts were called hot_take and only 3 went the
-     other way" is a direction, not just an error rate. -->
+
+On seed 42, 6 real `supported_claim` posts were called `build_log`, and only 1 real `build_log` was called `supported_claim`. The model leans toward build status on that pair. The other seeds do not settle it: seed 7 sends 4 claims to `build_log`, and seed 2024 sends 4 build logs to `supported_claim`. The boundary moves with the split.
 
 
 
