@@ -201,18 +201,19 @@ Those distinctions are now the labels `question`, `supported_claim`, and `build_
 
 | Measure | Baseline | Trained | Difference |
 |---|---|---|---|
-| Overall accuracy |  |  |  |
-| Macro F1 |  |  |  |
-| F1 — `label_one` |  |  |  |
-| F1 — `label_two` |  |  |  |
+| Overall accuracy | 0.567 | 0.533 | -0.033 |
+| Macro F1 | 0.451 | 0.434 | -0.016 |
+| F1 — `build_log` | 0.000 | 0.583 | +0.583 |
+| F1 — `question` | 0.583 | 0.720 | +0.137 |
+| F1 — `supported_claim` | 0.769 | 0.000 | -0.769 |
 
 **What I predicted before I looked:**
-<!-- Milestone 1 asks you to write this BEFORE seeing the trained numbers. A
-     prediction made afterwards isn't one. -->
+
+The trained model should beat a definition-only baseline on `question` and `build_log`, where the post has an obvious shape, and lose on `supported_claim`. The Unit 5 run never predicted that label, so a model that only reads the definition may do better there than the fine-tune. This sentence was written before `baseline.py` finished. The Unit 5 trained numbers were already in `results.json`.
 
 **What the gap actually means:**
-<!-- If the baseline matched your trained model, your fine-tuning added
-     nothing — and that is a real finding, not a failure. Say it plainly. -->
+
+Fine-tuning did not make the classifier more accurate overall. On the same 30 posts the baseline is at 0.567 and the trained model is at 0.533. What training did was swap which label gets learned. The baseline, reading only the definitions, got every `supported_claim` right and every `build_log` wrong (7 called `question`, 3 called `supported_claim`). The trained model learned `build_log` (F1 0.583) and got a bit better at `question`, and it never predicted `supported_claim`. The prediction above matches that split. The overall gap is a trade, not a win.
 
 
 
