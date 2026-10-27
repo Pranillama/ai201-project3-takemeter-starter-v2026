@@ -117,9 +117,11 @@ Those distinctions are now the labels `question`, `supported_claim`, and `build_
 | Label | Count | Share |
 |---|---|---|
 | question | 70 | 35% |
-| supported_claim | 64 | 32% |
-| build_log | 66 | 33% |
+| supported_claim | 56 | 28% |
+| build_log | 74 | 37% |
 | **Total** | **200** | 100% |
+
+Unit 5 filed this file as 70 / 64 / 66. The Improvement moved 8 rows from `supported_claim` to `build_log`. The before run log uses the original counts.
 
 **Three hard cases**
 
@@ -185,7 +187,13 @@ Those distinctions are now the labels `question`, `supported_claim`, and `build_
 - *What came back:* A first pass of 70 `question`, 65 `supported_claim`, and 65 `build_log`.
 - *What I changed:* After a spot check, "I'm building a memory agent for AI agents. Here's what I learned about why small models fail at memory" moved from `supported_claim` to `build_log`. The post describes the author's system. It does not report a measured result. Final counts are 70, 64, and 66.
 
-**Pre-labelling disclosure:** All 200 rows were pre-labelled from the written rules and then spot-checked. They were not labelled cold. Every note says `pre-labelled`. No row is marked `cold`.
+**Moment 3**
+
+- *What I asked for:* After the seed-42 matrix, which posts labeled `supported_claim` are actually the status of the author's own system under the decision rule.
+- *What came back:* A list of posts whose titles lead with "we built" or "my agent now does X", with a number attached.
+- *What I changed:* Eight of those moved to `build_log`. Posts whose point is the measurement stayed `supported_claim`, including the 73-trajectory audit and the voice agent post where 50% hung up. That change is The Improvement. It made the scores worse.
+
+**Pre-labelling disclosure:** All 200 rows were pre-labelled from the written rules and then spot-checked. They were not labelled cold. Every note says `pre-labelled`. No row is marked `cold`. Eight notes also say they were relabelled in unit 6.
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
@@ -261,22 +269,19 @@ On seed 42, 6 real `supported_claim` posts were called `build_log`, and only 1 r
 
 | # | Criterion | Target | Verdict | How I decided |
 |---|---|---|---|---|
-| 1 |  |  |  |  |
-| 2 |  |  |  |  |
-| 3 |  |  |  |  |
-| 4 |  |  |  |  |
-| 5 |  |  |  |  |
+| 1 | Overall accuracy | ≥ 0.60 on every seed | MISSED | 0.533, 0.500, 0.567. All three are under 0.60. |
+| 2 | Every label F1 | ≥ 0.50 on every seed | MISSED | Seed 42 `supported_claim` is 0.000. Seed 7 `question` is 0.375. One miss on any seed is a miss. |
+| 3 | No label over 50% | ≤ 50% of `labels.csv` | MET | The before file is 70 / 64 / 66. The largest share is 35%. |
+| 4 | Match the staff labels | ≥ 21 of 30 | not called | `my_staff_labels.csv` is saved. `data/staff_labels.csv` is not in the repo yet. |
+| 5 | Confident third beats the unsure third | ≥ 0.10 on every seed | MET | Gaps are 0.600, 0.100, and 0.500. Seed 7 is exactly 0.10, which meets "at least". |
 
 **Diagnoses**
 
-<!-- For each miss: the cause, and how you know. The four common causes are:
-     too few examples for a label, a boundary you applied inconsistently, a
-     genuinely hard label pair, and a task the model can't reach from this
-     much data.
+`staff_labels.csv` was not here when these were written, so the agreement report could not yet separate a loose rule from a hard pair. The evidence below is the matrix and a re-read of the decision rule. The agreement section will be filled when the file arrives.
 
-     ⚠️ Use your agreement report as evidence. It is the only instrument you
-     have that can tell a LABELLING problem from a MODEL problem, and this
-     section is graded on whether you used it that way. -->
+**1. Overall accuracy.** Missed on every seed, and the spread is only 0.067, so this is not one unlucky split. The model is right about half the time on 30 posts. The seed-42 matrix shows where those errors go: `supported_claim` is not predicted, and 6 of those 10 posts are called `build_log`. The baseline, which reads the full post and the definition, scores 0.567 and gets every `supported_claim` right, so the signal is in the text. The fine-tune is not using it.
+
+**2. Every label F1.** Two different labels fail on two different seeds. `supported_claim` is 0.000 on seed 42 and about 0.53 on the other two, so ten test posts are enough for that F1 to swing from nothing to just over the line. `question` is 0.720 on seed 42 and 0.375 on seed 7. `build_log` holds on all three (0.583, 0.560, 0.526). The unstable pair is `supported_claim` against `build_log`. I re-read the `supported_claim` rows against the written rule and found posts whose body is the status of the author's system, with a number attached. That is the loose boundary the matrix is pointing at. It is also a hard pair: a build update and a measured result often share the same shape. Both can be true. The improvement tests the loose-boundary reading.
 
 
 
@@ -290,47 +295,15 @@ On seed 42, 6 real `supported_claim` posts were called `build_log`, and only 1 r
      data/staff_taxonomy.md, not your own — so every argument below is made
      from those definitions and those decision rules. -->
 
-**Agreement rate:** ___ / 30 = ___%
-
-<!-- Nobody grades this number. A 60% who argues every disagreement from the
-     stated rules beats a 95% who wrote "staff was right" nine times. Several
-     of the 30 were chosen because they're genuinely ambiguous — you should be
-     winning some of these. -->
+**Agreement rate:** not scored yet. `my_staff_labels.csv` is 30 rows, text copied unchanged from `data/staff_posts.csv`, labeled under `data/staff_taxonomy.md` (`analysis` 10, `hot_take` 10, `reaction` 10). `data/staff_labels.csv` is not in the repo. I asked for it and I have not opened an answer key.
 
 **Disagreements**
 
-<!-- Three lines each: the post, both labels, and who you think is right and
-     why — grounded in the staff definitions you were both applying.
-
-     Then sort each into one of three piles:
-       (a) the rule covered it and I applied it loosely → a consistency problem
-       (b) the rule genuinely doesn't say               → a gap in the definitions
-       (c) the rule is ambiguous here and my reading is defensible → argue it.
-           This is a legitimate win.
-
-     Pile (a) is the one that matters most for your diagnosis: if you applied a
-     written rule two different ways on 30 posts, that is direct evidence about
-     what you did across your own 200. -->
-
-**1.**
-> *The post:*
->
-> *Staff said / I said:*
->
-> *My call, and why:*
->
-> *Which pile:*
-
-**2.**
-> *The post:*
->
-> *Staff said / I said:*
->
-> *My call, and why:*
->
-> *Which pile:*
+Not written yet. The script has nothing to join. I will adjudicate each disagreement from the staff rules when the file is here, and I will not mark them all "staff is right" by default.
 
 **What the pattern in my disagreements tells me:**
+
+Nothing yet. The diagnosis above says so.
 
 
 
@@ -338,24 +311,37 @@ On seed 42, 6 real `supported_claim` posts were called `build_log`, and only 1 r
 
 ## The Improvement
 
-**What I changed:**
+**What I changed:** Eight rows in `labels.csv` moved from `supported_claim` to `build_log`. Counts went from 70 / 64 / 66 to 70 / 56 / 74. Nothing else changed: same model, 3 epochs, learning rate 2e-5, batch 16, `MAX_LENGTH` 128, same three seeds.
 
-**Which diagnosis pointed at it:**
+The eight are posts whose body is the status of the author's own system, which the decision rule already calls `build_log` even when a number is attached: the day-3 OSS Radar experiment, the Hermes cleanup walkthrough, both copies of the SurrealDB Agent Memory launch, the planner that can no longer write files, the "I turned off Muse" stack change, the one-MCP sales agent, and the offline phone agent. Posts whose point is the measurement stayed put, including the 73-trajectory audit and the voice-agent post where 50% of people hung up.
+
+**Which diagnosis pointed at it:** Criterion 2. On seed 42, 6 real `supported_claim` posts were called `build_log` and only 1 went the other way. That direction usually means the boundary was applied loosely. I applied the written rule once, on that pair only.
 
 ### Run Log — After
 
+Same device: `mps`, Apple Silicon GPU, torch 2.14.1, `MAX_LENGTH` 128. Accuracy moved 0.033 across seeds.
+
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| 1. Overall accuracy | ≥ 0.60 | 0.467 | 0.467 | 0.433 | MISSED |
+| 2. Every label F1 | ≥ 0.50 | 0.000 (`supported_claim`) | 0.000 (`supported_claim`) | 0.000 (`supported_claim`) | MISSED |
+| 3. No label over 50% of `labels.csv` | ≤ 50% | 37% | 37% | 37% | MET |
+| 4. Match staff labels | ≥ 21/30 | — | — | — | waiting on `staff_labels.csv` |
+| 5. Confident third beats unsure third | ≥ 0.10 | 0.700 | 0.400 | 0.500 | MET |
+
+The other F1s: seed 42 `question` 0.400 and `build_log` 0.595; seed 7 `question` 0.429 and `build_log` 0.579; seed 2024 `question` 0.267 and `build_log` 0.595. Test supports shifted with the labels. On seed 42 they are `question` 11, `supported_claim` 8, `build_log` 11.
+
+Seed 42 confusion matrix after the change:
+
+| true \ predicted | question | supported_claim | build_log |
+|---|---|---|---|
+| **question** | 3 | 0 | 8 |
+| **supported_claim** | 1 | 0 | 7 |
+| **build_log** | 0 | 0 | 11 |
 
 **Did it help, and how do I know:**
 
-<!-- If it didn't, say so. Relabelling that didn't help is a genuinely
-     interesting result and earns full credit. -->
+No. Accuracy fell on every seed (0.533 to 0.467, 0.500 to 0.467, 0.567 to 0.433). `supported_claim` F1 went to 0.000 on all three seeds, including the two seeds where it had been just over 0.50. The model now calls almost everything `build_log`: on seed 42, 8 real questions and 7 real claims were called `build_log`, and it never predicted `supported_claim`. Moving eight system-status posts into `build_log` made that label the easier guess. It did not teach the model the measurement.
 
 
 
@@ -363,13 +349,15 @@ On seed 42, 6 real `supported_claim` posts were called `build_log`, and only 1 r
 
 ## What's Still Broken
 
-<!-- For each criterion still missed: what you'd do, and why you stopped. -->
+**1. Overall accuracy.** Still missed, and worse after the only change I am allowed. What I would do next is add posts whose point is a measurement and whose body is not a build update, so `supported_claim` is not just "a build log with a number in it." I stopped because this unit is one change.
 
+**2. Every label F1.** Still missed. `supported_claim` is now 0.000 on every seed, and `question` dropped as well because those posts are being called `build_log`. Same next step as criterion 1. I am not lowering the 0.50 target. The number was measurable and I missed it.
 
+**4. Staff agreement.** Not called. `my_staff_labels.csv` is committed. The verdict waits on `data/staff_labels.csv`.
 
-**The gap between what I meant my labels to capture and what the model
-learned:**
-<!-- Two sentences. Your confusion matrix is the evidence. -->
+**The gap between what I meant my labels to capture and what the model learned:**
+
+The labels were meant to separate a reported measurement from the status of someone's system, and a question from both. The after matrix shows the model learned one habit: call it `build_log`. On seed 42 it did that for 8 of 11 questions and 7 of 8 claims, and the `supported_claim` column is all zeros. The number in a post was never enough, on its own, to make a class.
 
 
 

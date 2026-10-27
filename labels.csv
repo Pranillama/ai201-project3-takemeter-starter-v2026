@@ -96,7 +96,7 @@ What I'd love feedback on:
 Is the ranking useful, or just another trending list?  
 What would make you open the newsletter every day?  
 Which parts of running a business would you NOT trust an agent with?  
-Happy to answer anything about how the agent setup works.",supported_claim,pre-labelled
+Happy to answer anything about how the agent setup works.",build_log,pre-labelled; relabelled in unit 6 from supported_claim to build_log: the body is the status of the author's own system
 "We compared 9 enterprise AI consulting firms for 2026, from Accenture to boutiques. The real split isn’t size.
 
 Almost every enterprise has an AI pilot running by now. Stanford’s 2026 AI Index puts business AI usage at 88%. But in IBM’s research, only 24% of executives say they have a clear view of where the value will actually come from.
@@ -349,7 +349,7 @@ One detail I found interesting: Hermes reported a roughly 40% reduction, but my 
 
 The project was small, and three tests aren't enough to prove that every behavior is preserved. Still, it was a useful experiment in giving an agent a real codebase, a clear constraint, and an independent verification step.
 
-**For those using AI coding agents: how do you verify that a refactor actually preserves behavior?** Do you rely on tests, inspect the diff manually, use hidden test cases, or combine all three?",supported_claim,pre-labelled
+**For those using AI coding agents: how do you verify that a refactor actually preserves behavior?** Do you rely on tests, inspect the diff manually, use hidden test cases, or combine all three?",build_log,pre-labelled; relabelled in unit 6 from supported_claim to build_log: the body is the status of the author's own system
 "Uncensored Qwen3.8-27b did my directory submissions in under 2 hours
 
 Problem: fill out 107 different web forms (directory submissions), each with slightly different fields, some with captchas, in under an hour.
@@ -532,7 +532,7 @@ We've also spent a lot of time benchmarking. One frustration with memory benchma
 
 There are some interesting alternatives like Mem0, Honcho and Cognee, but we wanted to explore a different approach.
 
-I'd love to hear from anyone building agents or context infrastructure. How are you managing long-term memory and information that changes over time?",supported_claim,pre-labelled
+I'd love to hear from anyone building agents or context infrastructure. How are you managing long-term memory and information that changes over time?",build_log,pre-labelled; relabelled in unit 6 from supported_claim to build_log: the body is the status of the author's own system
 "How much should a data agent learn upfront, and what should it look up as it goes?
 
 We're building an agent that looks for growth and revenue problems in a company's data without waiting for a question. It brings its findings into Slack. We prepare a catalog of the available tables, their columns, and possible joins for the agent to reuse. We call that step discovery. The query agent uses that catalog to choose where to look, then checks the live source as it investigates.
@@ -1217,7 +1217,7 @@ We've also spent a lot of time benchmarking. One frustration with memory benchma
 
 There are some interesting alternatives like Mem0, Honcho and Cognee, but we wanted to explore a different approach.
 
-I'd love to hear from anyone building agents or context infrastructure. How are you managing long-term memory and information that changes over time?",supported_claim,pre-labelled
+I'd love to hear from anyone building agents or context infrastructure. How are you managing long-term memory and information that changes over time?",build_log,pre-labelled; relabelled in unit 6 from supported_claim to build_log: the body is the status of the author's own system
 "I built a place where AI agents hang out and introduce their humans
 
 Built a side project that explores what agents do when they're not working.
@@ -1686,7 +1686,7 @@ It runs as a terminal agent and, since this week, as a desktop app (Mac, Windows
 
 Repo link in the comments.
 
-If you run planner/worker setups: do you let the planner write at all, or did you also end up at zero?",supported_claim,pre-labelled
+If you run planner/worker setups: do you let the planner write at all, or did you also end up at zero?",build_log,pre-labelled; relabelled in unit 6 from supported_claim to build_log: the body is the status of the author's own system
 "When was the last time your AI agent got stuck or needed you to step in, and what did you do?
 
 I’m curious about the moments when an agent can’t finish the job on its own, not the ideal demo, but what actually happens when you use one.
@@ -2766,7 +2766,7 @@ That’s how I ended up with **Comma**, an open-source personal agent.
 * **It asks before it decides.** When a call is yours to make, the Task waits in *Needs Review*. It only touches files or runs commands on your Mac if you turn on *Allow operations*.
 * **It doesn’t “remember things to make suggestions.”** Your memory and Tasks are things you can see and manage. They don’t sit in a black box.
 
-Is it as polished as a product with Meta’s budget? Of course not. But it does the same job: email, travel, shopping, briefings, long Tasks that keep running until they’re done. And it keeps running without anyone’s permission.",supported_claim,pre-labelled
+Is it as polished as a product with Meta’s budget? Of course not. But it does the same job: email, travel, shopping, briefings, long Tasks that keep running until they’re done. And it keeps running without anyone’s permission.",build_log,pre-labelled; relabelled in unit 6 from supported_claim to build_log: the body is the status of the author's own system
 "Why AI cannot 100% replace humans from jobs
 
 So, I have been thinking lately about the AI entrepreneurship space. Lately, it seems like more and more CEOs and founders are betting on AI to replace all humans.
@@ -2997,7 +2997,7 @@ what changed:
   
 on 582 EU SaaS founders: 76% of emails on the first provider, about 9 in 10 after the fallback, 92% verified valid  
   
-disclosure: I am the founder of RouterGrowth, which is that MCP server. how do you keep your agent's tool list small?",supported_claim,pre-labelled
+disclosure: I am the founder of RouterGrowth, which is that MCP server. how do you keep your agent's tool list small?",build_log,pre-labelled; relabelled in unit 6 from supported_claim to build_log: the body is the status of the author's own system
 "I built a 16-subagent team in Claude Code with hard guardrails. Overkill, or what would you change?
 
 Solo dev. Every change goes dev → code + security review → QA → release. Python hooks block deploys, secrets and pushes to main. 9 agents on Opus, 41 evals I rarely run (they cost money). Is this a solid setup or overbuilt? What would you cut, merge or add?",build_log,pre-labelled
@@ -4021,7 +4021,7 @@ A deterministic router catches the phrase first. Asking the time reads the clock
 
 Today I shipped four alphas, 0.1.29 to 0.1.32: a security and privacy pass, the phrase routing in Spanish, English and Portuguese, an audit of the loop with 200 real phrases, and the repeating reminders and date countdowns.
 
-Genuinely curious how others here draw this line with small local models: what do you route, and what do you leave to the model? Links in the comments, per the rules.",supported_claim,pre-labelled
+Genuinely curious how others here draw this line with small local models: what do you route, and what do you leave to the model? Links in the comments, per the rules.",build_log,pre-labelled; relabelled in unit 6 from supported_claim to build_log: the body is the status of the author's own system
 "Database agent evaluation
 
 I'm exploring how to evaluate a database agent in a real-world setting, particularly when the underlying database has complex business rules, conditions, and domain-specific logic.
