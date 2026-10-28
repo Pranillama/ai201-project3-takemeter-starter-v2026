@@ -236,7 +236,7 @@ Device for all three seeds: `mps`, Apple Silicon GPU, torch 2.14.1, `MAX_LENGTH`
 | 1. Overall accuracy | ≥ 0.60 | 0.533 | 0.500 | 0.567 | MISSED |
 | 2. Every label F1 | ≥ 0.50 | 0.000 (`supported_claim`) | 0.375 (`question`) | 0.526 (`build_log`) | MISSED |
 | 3. No label over 50% of `labels.csv` | ≤ 50% | 35% | 35% | 35% | MET |
-| 4. Match staff labels | ≥ 21/30 | — | — | — | waiting on `staff_labels.csv` |
+| 4. Match staff labels | ≥ 21/30 | 30/30 | 30/30 | 30/30 | MET |
 | 5. Confident third beats unsure third | ≥ 0.10 | 0.600 | 0.100 | 0.500 | MET |
 
 Criterion 2's seed columns are the worst label that seed, which is the number the target has to clear. The other labels on those seeds: seed 42 `question` 0.720 and `build_log` 0.583; seed 7 `supported_claim` 0.526 and `build_log` 0.560; seed 2024 `question` 0.632 and `supported_claim` 0.545. Criterion 3 is a property of the file (70 / 64 / 66 of 200), so it does not change with the seed. Criterion 5 on seed 7 is 0.600 versus 0.500, which meets "at least 0.10" on the line.
@@ -272,16 +272,16 @@ On seed 42, 6 real `supported_claim` posts were called `build_log`, and only 1 r
 | 1 | Overall accuracy | ≥ 0.60 on every seed | MISSED | 0.533, 0.500, 0.567. All three are under 0.60. |
 | 2 | Every label F1 | ≥ 0.50 on every seed | MISSED | Seed 42 `supported_claim` is 0.000. Seed 7 `question` is 0.375. One miss on any seed is a miss. |
 | 3 | No label over 50% | ≤ 50% of `labels.csv` | MET | The before file is 70 / 64 / 66. The largest share is 35%. |
-| 4 | Match the staff labels | ≥ 21 of 30 | not called | `my_staff_labels.csv` is saved. `data/staff_labels.csv` is not in the repo yet. |
+| 4 | Match the staff labels | ≥ 21 of 30 | MET | 30 of 30. The text matched on every post. This does not depend on the seed. |
 | 5 | Confident third beats the unsure third | ≥ 0.10 on every seed | MET | Gaps are 0.600, 0.100, and 0.500. Seed 7 is exactly 0.10, which meets "at least". |
 
 **Diagnoses**
 
-`staff_labels.csv` was not here when these were written, so the agreement report could not yet separate a loose rule from a hard pair. The evidence below is the matrix and a re-read of the decision rule. The agreement section will be filled when the file arrives.
+My 30 staff labels were already saved in `my_staff_labels.csv` before I opened `data/staff_labels.csv`. Agreement is 30 of 30. That is evidence about whether I can apply a written rule, not about whether the fine-tune learned one.
 
-**1. Overall accuracy.** Missed on every seed, and the spread is only 0.067, so this is not one unlucky split. The model is right about half the time on 30 posts. The seed-42 matrix shows where those errors go: `supported_claim` is not predicted, and 6 of those 10 posts are called `build_log`. The baseline, which reads the full post and the definition, scores 0.567 and gets every `supported_claim` right, so the signal is in the text. The fine-tune is not using it.
+**1. Overall accuracy.** Missed on every seed, and the spread is only 0.067, so this is not one unlucky split. The model is right about half the time on 30 posts. The seed-42 matrix shows where those errors go: `supported_claim` is not predicted, and 6 of those 10 posts are called `build_log`. The baseline, which reads the full post and the definition, scores 0.567 and gets every `supported_claim` right, so the signal is in the text. The fine-tune is not using it. The staff agreement does not explain this miss. Those 30 posts use a different taxonomy, and I matched them. The miss is in what the model did with my labels.
 
-**2. Every label F1.** Two different labels fail on two different seeds. `supported_claim` is 0.000 on seed 42 and about 0.53 on the other two, so ten test posts are enough for that F1 to swing from nothing to just over the line. `question` is 0.720 on seed 42 and 0.375 on seed 7. `build_log` holds on all three (0.583, 0.560, 0.526). The unstable pair is `supported_claim` against `build_log`. I re-read the `supported_claim` rows against the written rule and found posts whose body is the status of the author's system, with a number attached. That is the loose boundary the matrix is pointing at. It is also a hard pair: a build update and a measured result often share the same shape. Both can be true. The improvement tests the loose-boundary reading.
+**2. Every label F1.** Two different labels fail on two different seeds. `supported_claim` is 0.000 on seed 42 and about 0.53 on the other two, so ten test posts are enough for that F1 to swing from nothing to just over the line. `question` is 0.720 on seed 42 and 0.375 on seed 7. `build_log` holds on all three (0.583, 0.560, 0.526). The unstable pair is `supported_claim` against `build_log`. I re-read the `supported_claim` rows against the written rule and found posts whose body is the status of the author's system, with a number attached. The improvement tested that reading, and it made the F1 worse, so a loose application of my own rule was not the whole cause. The staff set points the same way. I matched staff on the posts that look like the other label for one clause, which means I can apply a rule someone else wrote. The remaining miss is the pair itself: a measured result and a build update share a shape, and the model uses `build_log` as the default.
 
 
 
@@ -295,15 +295,78 @@ On seed 42, 6 real `supported_claim` posts were called `build_log`, and only 1 r
      data/staff_taxonomy.md, not your own — so every argument below is made
      from those definitions and those decision rules. -->
 
-**Agreement rate:** not scored yet. `my_staff_labels.csv` is 30 rows, text copied unchanged from `data/staff_posts.csv`, labeled under `data/staff_taxonomy.md` (`analysis` 10, `hot_take` 10, `reaction` 10). `data/staff_labels.csv` is not in the repo. I asked for it and I have not opened an answer key.
+**Agreement rate:** 30 / 30 = 100%
 
-**Disagreements**
+`my_staff_labels.csv` was committed before `data/staff_labels.csv` was in the repo. The posts were pasted unchanged. `agreement.py` matched on all 30 texts and found no disagreements. There is nothing to put in piles (a), (b), or (c).
 
-Not written yet. The script has nothing to join. I will adjudicate each disagreement from the staff rules when the file is here, and I will not mark them all "staff is right" by default.
+The set was not easy, and the rules are tight enough to decide the close ones. These are the posts I almost called the other way, and the rule that kept them:
+
+**1.**
+> *The post:* "Carbon plates aren't the whole story. My times dropped 2% in the shoes and another 2% the following year in the same pair, when the only thing that changed was going from 35 to 50 miles a week."
+>
+> *Staff said / I said:* `analysis` / `analysis`
+>
+> *My call, and why:* The first clause sounds like a shoe opinion. The second sentence is two comparable numbers, and the claim rests on them. Rule 1: the fact carries the argument.
+>
+> *Which pile:* no disagreement
+
+**2.**
+> *The post:* "Three of us ran the same session on the same day, different shoes, within 10 seconds of each other over 5 miles."
+>
+> *Staff said / I said:* `analysis` / `analysis`
+>
+> *My call, and why:* The sample is three people and the conclusion is hedged. The 10 seconds are still what the claim rests on, not decoration. Rule 1.
+>
+> *Which pile:* no disagreement
+
+**3.**
+> *The post:* "Times are down about 3% since the shoe rules changed, so obviously the shoes are the whole story and the sport has a problem."
+>
+> *Staff said / I said:* `hot_take` / `hot_take`
+>
+> *My call, and why:* This is the rule 1 example. The 3% is a flourish on a conclusion the writer already reached. "So obviously" is doing the work.
+>
+> *Which pile:* no disagreement
+
+**4.**
+> *The post:* "Nobody actually enjoys the long run. They enjoy having done it, which is a completely different thing, and the sport would be more honest if it said so."
+>
+> *Staff said / I said:* `hot_take` / `hot_take`
+>
+> *My call, and why:* It reads like a feeling. It is a claim about everyone, not a report of the writer's own morning. Rule 2.
+>
+> *Which pile:* no disagreement
+
+**5.**
+> *The post:* "Every injury thread on this forum is the same injury and the same three replies."
+>
+> *Staff said / I said:* `hot_take` / `hot_take`
+>
+> *My call, and why:* It could be checked. No count is given, so the writer is asserting, not showing. Rule 1 needs a load-bearing fact.
+>
+> *Which pile:* no disagreement
+
+**6.**
+> *The post:* "Third DNF this year. I don't really want to talk about it, just wanted to put it somewhere."
+>
+> *Staff said / I said:* `reaction` / `reaction`
+>
+> *My call, and why:* "Third" is countable. Nothing is argued from it. Rule 3 does not turn a personal report into `analysis` unless the fact carries an argument.
+>
+> *Which pile:* no disagreement
+
+**7.**
+> *The post:* "Just realised the shoes I set every PB in this year are the ones I bought by accident in the wrong size."
+>
+> *Staff said / I said:* `reaction` / `reaction`
+>
+> *My call, and why:* It could be a wry claim about shoe discourse. The words are the writer's own realisation, now. Rule 2. Rule 4 would pick the same label, because the post spends itself on that realisation.
+>
+> *Which pile:* no disagreement
 
 **What the pattern in my disagreements tells me:**
 
-Nothing yet. The diagnosis above says so.
+There were no disagreements. The pattern in the close calls is that the staff rules already pick a side when a post looks like two labels. I matched those sides. That is evidence I can apply a rule I did not write. It is not evidence that my own `supported_claim` / `build_log` boundary was clean. That pair still failed, and tightening it on eight rows made the model worse.
 
 
 
@@ -326,7 +389,7 @@ Same device: `mps`, Apple Silicon GPU, torch 2.14.1, `MAX_LENGTH` 128. Accuracy 
 | 1. Overall accuracy | ≥ 0.60 | 0.467 | 0.467 | 0.433 | MISSED |
 | 2. Every label F1 | ≥ 0.50 | 0.000 (`supported_claim`) | 0.000 (`supported_claim`) | 0.000 (`supported_claim`) | MISSED |
 | 3. No label over 50% of `labels.csv` | ≤ 50% | 37% | 37% | 37% | MET |
-| 4. Match staff labels | ≥ 21/30 | — | — | — | waiting on `staff_labels.csv` |
+| 4. Match staff labels | ≥ 21/30 | 30/30 | 30/30 | 30/30 | MET |
 | 5. Confident third beats unsure third | ≥ 0.10 | 0.700 | 0.400 | 0.500 | MET |
 
 The other F1s: seed 42 `question` 0.400 and `build_log` 0.595; seed 7 `question` 0.429 and `build_log` 0.579; seed 2024 `question` 0.267 and `build_log` 0.595. Test supports shifted with the labels. On seed 42 they are `question` 11, `supported_claim` 8, `build_log` 11.
@@ -352,8 +415,6 @@ No. Accuracy fell on every seed (0.533 to 0.467, 0.500 to 0.467, 0.567 to 0.433)
 **1. Overall accuracy.** Still missed, and worse after the only change I am allowed. What I would do next is add posts whose point is a measurement and whose body is not a build update, so `supported_claim` is not just "a build log with a number in it." I stopped because this unit is one change.
 
 **2. Every label F1.** Still missed. `supported_claim` is now 0.000 on every seed, and `question` dropped as well because those posts are being called `build_log`. Same next step as criterion 1. I am not lowering the 0.50 target. The number was measurable and I missed it.
-
-**4. Staff agreement.** Not called. `my_staff_labels.csv` is committed. The verdict waits on `data/staff_labels.csv`.
 
 **The gap between what I meant my labels to capture and what the model learned:**
 
